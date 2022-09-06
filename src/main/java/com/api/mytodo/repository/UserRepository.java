@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import com.api.mytodo.models.User;
 
 @Repository
-interface UserRepository extends JpaRepository<User, UUID> {
-  
+public interface UserRepository extends JpaRepository<User, UUID> {
+  public User findByEmail(String email);
 }
