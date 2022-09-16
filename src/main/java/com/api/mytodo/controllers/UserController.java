@@ -1,5 +1,7 @@
 package com.api.mytodo.controllers;
 
+import java.util.Arrays;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.api.mytodo.controllers.dto.UserRequestDTO;
 import com.api.mytodo.models.User;
+import com.api.mytodo.services.RoleService;
 import com.api.mytodo.services.UserService;
 
 @RestController
@@ -22,6 +25,9 @@ public class UserController {
   @Autowired
   private UserService userService;
   
+  @Autowired
+  private RoleService roleService;
+
   @PostMapping
   public ResponseEntity<Object> create(@RequestBody @Valid UserRequestDTO userRequestDTO) {
 
@@ -32,6 +38,8 @@ public class UserController {
     User user = new User();
 
     BeanUtils.copyProperties(userRequestDTO, user);
+
+    user.setRoles(Arrays.asList(roleService.findByName("USER")));
 
     userService.save(user);
     
